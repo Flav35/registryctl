@@ -4,18 +4,9 @@ Registryctl
 Install
 =======
 
-* From `pip`:
+.. code-block:: shell
 
-    .. code-block:: shell
-
-        pip install registryctl
-
-
-* For developpement:
-
-    .. code-block:: shell
-
-        python setup.py install
+    pip install registryctl
 
 
 Usage
