@@ -1,10 +1,12 @@
 Registryctl
 ###########
 
+.. note:: WORK IN PROGRESS
+
 Install
 =======
 
-.. code-block:: shell
+Get `registryctl` from pip::
 
     pip install registryctl
 
@@ -12,11 +14,16 @@ Install
 Usage
 =====
 
-* Help
+* Help::
 
-    .. code-block:: shell
+    registryctl --help
 
-        registryctl --help
+
+* Catalog::
+
+    registryctl catalog list
+    registryctl catalog show REPOSITORY [TAG]
+    registryctl catalog delete REPOSITORY TAG
 
 
 
