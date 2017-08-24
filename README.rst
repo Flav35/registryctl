@@ -1,7 +1,11 @@
 Registryctl
 ###########
 
-.. note:: WORK IN PROGRESS
+.. image:: https://travis-ci.org/Flav35/registryctl.svg?branch=master
+    :target: https://travis-ci.org/Flav35/registryctl
+
+
+WORK IN PROGRESS
 
 Install
 =======
