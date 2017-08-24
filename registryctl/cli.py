@@ -7,7 +7,7 @@ import logging
 
 from cliff import app
 
-from registryctl.common import baseclient,commandmanager
+from registryctl.common import authclient,commandmanager
 
 COMMAND_GROUPS = [
     'registryctl.catalog',
@@ -43,7 +43,7 @@ class RegistryCtlApp(app.App):
         if self.options.login and self.options.password:
             auth = (self.options.login,self.options.password)
         url = self.options.url + '/v2'
-        self.client = baseclient.BaseClient(url,auth)
+        self.client = authclient.AuthClient(url,auth)
 
 
 def main(argv=sys.argv[1:]):

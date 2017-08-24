@@ -4,7 +4,7 @@ from registryctl.common.exceptions import *
 
 REGISTRY_HEADER_V2 = 'application/vnd.docker.distribution.manifest.v2+json'
 
-class BaseClient(object):
+class AuthClient(object):
     def __init__(self, url, auth=None, commands=None):
         self._url = url
         self._session = requests.Session()

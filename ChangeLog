@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* Re-organize app, CI, simple tests
 * gitignore
 * Install and ci
 * Add informations
