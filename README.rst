@@ -27,3 +27,10 @@ Note: Delete images
 it removes the reference.
 
 Please see https://docs.docker.com/registry/garbage-collection/
+
+
+TODO
+====
+
+* Return error json responses
+* Add unit tests

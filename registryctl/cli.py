@@ -6,47 +6,50 @@ import argparse
 import logging
 
 from cliff import app
-from cliff import commandmanager
 
-from registryctl import client
+from registryctl.common import baseclient,commandmanager
 
-class RegistryCtl(app.App):
+COMMAND_GROUPS = [
+    'registryctl.catalog',
+]
+
+class RegistryCtlApp(app.App):
 
     def __init__(self):
-        super(RegistryCtl, self).__init__(
+        super(RegistryCtlApp, self).__init__(
             description='Docker Registry CLI',
-            version='0.1',
-            command_manager=commandmanager.CommandManager('registryctl.api'),
+            version='0.2',
+            command_manager=commandmanager.CommandManager('registryctl.cli', COMMAND_GROUPS),
             deferred_help=True)
 
     def build_option_parser(self, description, version, argparse_kwargs=None):
-        parser = super(RegistryCtl, self).build_option_parser(description,
+        parser = super(RegistryCtlApp, self).build_option_parser(description,
                                                             version,
                                                             argparse_kwargs)
+        # Common parameters
         parser.add_argument('-u', '--url',
-                            help='Registry URL',
-                            default=os.environ.get('REGISTRYCTL_URL', None))
+            help='Registry URL',
+            default=os.environ.get('REGISTRYCTL_URL', 'http://localhost:5000'))
         parser.add_argument('-l', '--login',
-                            help='Login for Basic auth',
-                            default=os.environ.get('REGISTRYCTL_LOGIN', None))
+            help='Login for Basic auth',
+            default=os.environ.get('REGISTRYCTL_LOGIN', None))
         parser.add_argument('-p', '--password',
-                            help='Password for Basic auth',
-                            default=os.environ.get('REGISTRYCTL_PASSWORD', None))
+            help='Password for Basic auth',
+            default=os.environ.get('REGISTRYCTL_PASSWORD', None))
         return parser
 
     def initialize_app(self, argv):
-        if not self.options.url:
-            raise Exception("Missing --url argument or REGISTRYCTL_URL env var")
-        basic_auth = None
+        auth = None
         if self.options.login and self.options.password:
-            basic_auth = (self.options.login,self.options.password)
-        self.client = client.RegistryCtlClient(url=self.options.url + '/v2', auth=basic_auth)
+            auth = (self.options.login,self.options.password)
+        url = self.options.url + '/v2'
+        self.client = baseclient.BaseClient(url,auth)
 
 
-def main():
-    cli = RegistryCtl()
-    return cli.run(sys.argv[1:])
+def main(argv=sys.argv[1:]):
+    app = RegistryCtlApp()
+    return app.run(argv)
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main(sys.argv[1:]))

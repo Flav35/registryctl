@@ -1,23 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import json
+import six
 
 from cliff import command
 from cliff import lister
 from cliff import show
-import six
 
-
-def _columnize_list(columns, list):
-    items = []
-    for item in list:
-        d = []
-        for c in columns:
-            d.append(item[c])
-        items.append(d)
-
-    return (columns, items)
-
+from registryctl.catalog import client
 
 class CatalogList(lister.Lister):
     def get_parser(self, prog_name):
@@ -26,7 +16,7 @@ class CatalogList(lister.Lister):
 
     def take_action(self, args):
         columns = ('repository','tags')
-        req_list = self.app.client.catalogList()
+        req_list = client.CatalogClient(self.app.client).catalogList()
         return (columns, req_list)
 
 class CatalogShow(show.ShowOne):
@@ -37,7 +27,7 @@ class CatalogShow(show.ShowOne):
         return parser
 
     def take_action(self, args):
-        req_show = self.app.client.catalogShow(args.repository, args.tag)
+        req_show = client.CatalogClient(self.app.client).catalogShow(args.repository, args.tag)
         return self.dict2columns(req_show)
 
 class CatalogDelete(show.ShowOne):
@@ -48,5 +38,5 @@ class CatalogDelete(show.ShowOne):
         return parser
 
     def take_action(self, args):
-        req_delete = self.app.client.catalogDelete(args.repository, args.tag)
+        req_delete = client.CatalogClient(self.app.client).catalogDelete(args.repository, args.tag)
         return self.dict2columns(req_delete)
