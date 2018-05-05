@@ -22,6 +22,7 @@ class CatalogClient(object):
 
       def catalogList(self):
           url = '%s/_catalog' % (self.authclient._url)
+          print(self.authclient._get(url).json())
           repositories = self.authclient._get(url).json()['repositories']
           return ((repo, self._get_repository_tags(repo)) for repo in repositories)
 
